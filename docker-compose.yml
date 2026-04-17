@@ -1,0 +1,28 @@
+services:
+  api:
+    build: .
+    ports:
+      - "8080:8080"
+    environment:
+      - ASPNETCORE_URLS=http://+:8080
+      - MongoDbSettings__ConnectionString=mongodb://mongo:27017
+      - MongoDbSettings__DatabaseName=ecopulse
+    depends_on:
+      - mongo
+    networks:
+      - ecopulse-net
+
+  mongo:
+    image: mongo:6
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    networks:
+      - ecopulse-net
+
+volumes:
+  mongo_data:
+
+networks:
+  ecopulse-net:

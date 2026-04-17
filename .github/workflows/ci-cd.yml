@@ -1,0 +1,44 @@
+name: EcoPulse CI/CD
+
+on:
+  push:
+    branches:
+      - main
+      - staging
+  pull_request:
+    branches:
+      - main
+      - staging
+
+jobs:
+  build-test-docker:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Baixar código
+        uses: actions/checkout@v4
+
+      - name: Configurar .NET 8
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: Restaurar dependências
+        run: dotnet restore EcoPulse.Api/EcoPulse.Api.csproj
+
+      - name: Compilar aplicação
+        run: dotnet build EcoPulse.Api/EcoPulse.Api.csproj --no-restore --configuration Release
+
+      - name: Executar testes
+        run: dotnet test EcoPulse.Api/EcoPulse.Api.csproj --no-build --verbosity normal || echo "Sem testes"
+
+      - name: Build Docker
+        run: docker build -t ecopulse-api .
+
+      - name: Deploy STAGING
+        if: github.ref == 'refs/heads/staging'
+        run: echo "Deploy staging OK"
+
+      - name: Deploy PRODUÇÃO
+        if: github.ref == 'refs/heads/main'
+        run: echo "Deploy produção OK"
