@@ -1,12 +1,16 @@
 services:
   api:
     build: .
+    restart: always
     ports:
       - "8080:8080"
     environment:
       - ASPNETCORE_URLS=http://+:8080
-      - MongoDbSettings__ConnectionString=mongodb://mongo:27017
+
+      # 🔥 troca fácil entre LOCAL e ATLAS
+      - MongoDbSettings__ConnectionString=${MONGO_CONN}
       - MongoDbSettings__DatabaseName=ecopulse
+
     depends_on:
       - mongo
     networks:
@@ -14,6 +18,8 @@ services:
 
   mongo:
     image: mongo:6
+    restart: always
+    container_name: ecopulse-mongo
     ports:
       - "27017:27017"
     volumes:
