@@ -111,7 +111,7 @@ Isso traz benefícios como:
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 COPY . .
-WORKDIR /src/EcoPulse.Api
+WORKDIR /src/src/EcoPulse.Api
 RUN dotnet restore
 RUN dotnet publish -c Release -o /app/out
 
@@ -170,15 +170,28 @@ Os testes podem ser realizados via:
 
 ## 🖼️ Prints do funcionamento
 
-📌 (Adicionar prints aqui no seu envio)
+### 🔹 Swagger funcionando
+![Swagger](prints/swagger.png)
 
-Sugestões de prints:
+---
 
-* Swagger funcionando
-* POST criando device
-* GET retornando dados
-* Docker rodando
-* Pipeline GitHub Actions executando
+### 🔹 GET /devices funcionando
+![GET](prints/get.png)
+
+---
+
+### 🔹 POST /devices funcionando
+![POST](prints/post.png)
+
+---
+
+### 🔹 Docker rodando (containers)
+![Docker](prints/docker.png)
+
+---
+
+### 🔹 Pipeline CI/CD (GitHub Actions)
+![Pipeline](prints/pipeline.png)
 
 ---
 
