@@ -21,7 +21,7 @@ A aplicação permite o gerenciamento de dispositivos (devices), como sensores a
 
 ```bash
 # Clonar o repositório
-git clone <URL_DO_REPOSITORIO>
+git clone https://github.com/CyntiaHagers/EcoPulse.git
 
 # Acessar a pasta do projeto
 cd EcoPulse
