@@ -2,20 +2,16 @@ name: EcoPulse CI/CD
 
 on:
   push:
-    branches:
-      - main
-      - staging
+    branches: [main, staging]
   pull_request:
-    branches:
-      - main
-      - staging
+    branches: [main, staging]
 
 jobs:
   build-test-docker:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Baixar código
+      - name: Checkout do código
         uses: actions/checkout@v4
 
       - name: Configurar .NET 8
@@ -26,19 +22,22 @@ jobs:
       - name: Restaurar dependências
         run: dotnet restore EcoPulse.Api/EcoPulse.Api.csproj
 
-      - name: Compilar aplicação
-        run: dotnet build EcoPulse.Api/EcoPulse.Api.csproj --no-restore --configuration Release
+      - name: Build
+        run: dotnet build EcoPulse.Api/EcoPulse.Api.csproj --configuration Release --no-restore
 
-      - name: Executar testes
-        run: dotnet test EcoPulse.Api/EcoPulse.Api.csproj --no-build --verbosity normal || echo "Sem testes"
+      - name: Testes (opcional)
+        run: dotnet test EcoPulse.Api/EcoPulse.Api.csproj --no-build --verbosity normal || true
 
       - name: Build Docker
-        run: docker build -t ecopulse-api .
+        run: docker build -t ecopulse-api:latest .
+
+      - name: Rodar container (teste)
+        run: docker run -d -p 8080:8080 ecopulse-api
 
       - name: Deploy STAGING
         if: github.ref == 'refs/heads/staging'
-        run: echo "Deploy staging OK"
+        run: echo "Deploy em ambiente STAGING realizado"
 
       - name: Deploy PRODUÇÃO
         if: github.ref == 'refs/heads/main'
-        run: echo "Deploy produção OK"
+        run: echo "Deploy em PRODUÇÃO realizado"

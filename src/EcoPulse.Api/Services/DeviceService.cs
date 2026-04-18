@@ -13,9 +13,16 @@ namespace EcoPulse.Api.Services
             _devices = database.GetCollection<Device>("devices");
         }
 
+        // ✅ GET - listar todos
         public List<Device> Get()
         {
             return _devices.Find(_ => true).ToList();
+        }
+
+        // ✅ POST - criar novo device
+        public void Create(Device device)
+        {
+            _devices.InsertOne(device);
         }
     }
 }

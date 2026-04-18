@@ -15,11 +15,25 @@ namespace EcoPulse.Api.Controllers
             _deviceService = deviceService;
         }
 
+        // ✅ GET /devices
         [HttpGet]
         public IActionResult Get()
         {
             var devices = _deviceService.Get();
             return Ok(devices);
+        }
+
+        // ✅ POST /devices
+        [HttpPost]
+        public IActionResult Create([FromBody] Device device)
+        {
+            _deviceService.Create(device);
+
+            return CreatedAtAction(
+                nameof(Get),
+                new { id = device.Id },
+                device
+            );
         }
     }
 }
