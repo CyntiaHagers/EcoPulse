@@ -8,6 +8,21 @@ A aplicação permite o gerenciamento de dispositivos (devices), como sensores a
 
 ---
 
+## 🔐 Variáveis de ambiente
+
+Para executar o projeto localmente, é necessário criar um arquivo `.env` com base no arquivo `.env.example`.
+
+Exemplo:
+
+```
+MONGO_CONNECTION_STRING=mongodb://ecopulse-mongo:27017
+MONGO_DATABASE=ecopulse_db
+```
+
+O arquivo `.env` não é versionado por conter configurações sensíveis.
+
+---
+
 ## 🚀 Como executar localmente com Docker
 
 ### 🔧 Pré-requisitos
@@ -76,8 +91,8 @@ O deploy foi configurado de forma automatizada no pipeline CI/CD.
 
 Foram definidos dois ambientes:
 
-- **Staging** → ativado quando há push na branch `staging`
-- **Produção** → ativado quando há push na branch `main`
+* **Staging** → ativado quando há push na branch `staging`
+* **Produção** → ativado quando há push na branch `main`
 
 O processo de deploy foi **simulado**, conforme escopo da atividade, representando um fluxo real de entrega contínua.
 
@@ -98,12 +113,14 @@ Isso traz benefícios como:
 ### 🔍 Etapas do Dockerfile
 
 1. **Build da aplicação**
-   - Utiliza a imagem `dotnet/sdk`
-   - Restaura dependências e compila o projeto
+
+   * Utiliza a imagem `dotnet/sdk`
+   * Restaura dependências e compila o projeto
 
 2. **Imagem final (runtime)**
-   - Utiliza a imagem `dotnet/aspnet`
-   - Copia apenas os arquivos necessários para execução
+
+   * Utiliza a imagem `dotnet/aspnet`
+   * Copia apenas os arquivos necessários para execução
 
 ### 🧾 Código
 
@@ -119,8 +136,9 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0
 WORKDIR /app
 COPY --from=build /app/out .
 ENTRYPOINT ["dotnet", "EcoPulse.Api.dll"]
-
 ```
+
+---
 
 ### 🧩 Docker Compose
 
@@ -170,27 +188,26 @@ Os testes podem ser realizados via:
 
 ## 🖼️ Prints do funcionamento
 
-### 🔹 Swagger funcionando
-![Swagger](prints/swagger.png)
-
----
-
 ### 🔹 GET /devices funcionando
+
 ![GET](prints/get.png)
 
 ---
 
 ### 🔹 POST /devices funcionando
+
 ![POST](prints/post.png)
 
 ---
 
 ### 🔹 Docker rodando (containers)
+
 ![Docker](prints/docker.png)
 
 ---
 
 ### 🔹 Pipeline CI/CD (GitHub Actions)
+
 ![Pipeline](prints/pipeline.png)
 
 ---
@@ -209,7 +226,6 @@ EcoPulse
 │
 ├── Dockerfile
 ├── docker-compose.yml
-├── .env
 ├── .env.example
 └── README.md
 ```
@@ -241,7 +257,7 @@ EcoPulse
 
 * Uso de `0.0.0.0` para permitir acesso externo ao container
 * Configuração de `RoutePrefix` no Swagger
-* Criação de `.env` para variáveis sensíveis
+* Criação de `.env.example` para variáveis de ambiente
 * Estruturação em camadas (Controller, Service, Model)
 * Pipeline automatizado via GitHub Actions
 
@@ -268,4 +284,7 @@ EcoPulse
 
 ## 👨‍💻 Integrantes
 
-* (Adicionar nomes aqui)
+Ana Clara da Silva Reis RM560789
+Cyntia Luiza Hagers     RM560525
+
+
